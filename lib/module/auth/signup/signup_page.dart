@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shop/helper/dimension.dart';
 import 'package:shop/module/auth/login/login_page.dart';
+import 'package:shop/overlay/error_overlay.dart';
 import 'package:shop/overlay/success_overlay.dart';
 
 class SignUp extends StatefulWidget {
@@ -45,7 +46,14 @@ class _SignUpState extends State<SignUp> {
     } catch (e) {
       setState(() {
         _errorMessage = e.toString();
+          Navigator.of(context).push(
+        ErrorOverlay(
+          message: "$_errorMessage",
+        ),
+      );
       });
+     
+      
       print('Sign up error: $_errorMessage');
     }
   }
@@ -117,11 +125,7 @@ class _SignUpState extends State<SignUp> {
                   'Sudah punya akun? Login',
                 ),
               ),
-              if (_errorMessage.isNotEmpty)
-                Text(
-                  _errorMessage,
-                  style: TextStyle(color: Colors.red),
-                ),
+           
             ],
           ),
         ),

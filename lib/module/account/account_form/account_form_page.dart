@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shop/helper/dimension.dart';
+import 'package:shop/helper/navigator.dart';
 import 'package:shop/overlay/error_overlay.dart';
 import 'package:shop/overlay/success_overlay.dart';
 
@@ -174,7 +175,7 @@ class _AccountFormPageState extends State<AccountFormPage> {
               TextFormField(
                 controller: _phoneNumberController,
                 decoration: const InputDecoration(
-                  labelText: 'Nama Panggilan',
+                  labelText: 'No Handphone',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(20.0), // Adjust the radius as needed
@@ -191,7 +192,7 @@ class _AccountFormPageState extends State<AccountFormPage> {
                   child: TextFormField(
                     controller: _birthDateController,
                     decoration: const InputDecoration(
-                      labelText: 'Nama Panggilan',
+                      labelText: 'Tanggal Lahir',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(
                           Radius.circular(20.0), // Adjust the radius as needed
@@ -342,6 +343,7 @@ class _AccountFormPageState extends State<AccountFormPage> {
           message: "Profile Berhasil diupload",
         ),
       );
+     
     } catch (e) {
       print('Error uploading data to Firestore: $e');
       // Tampilkan pesan error jika terjadi kesalahan
