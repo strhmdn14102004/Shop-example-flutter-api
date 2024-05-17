@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "78585344591",
+    "project_id": "shop-5a159",
+    "storage_bucket": "shop-5a159.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:78585344591:android:c7805dc3861fde9f3d303a",
+        "android_client_info": {
+          "package_name": "com.sasat.shop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYFss5ZI8bznVj4IR8yhOnKB0PHM27E-I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
