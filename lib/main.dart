@@ -13,6 +13,9 @@ import 'package:shop/helper/dimension.dart';
 import 'package:shop/module/auth/login/login_page.dart';
 import 'package:shop/module/home/home_bloc.dart';
 
+import 'package:shared_preferences/shared_preferences.dart'; // Import shared_preferences package
+import 'package:shop/module/home/home_page.dart';
+
 import 'package:timezone/data/latest.dart' as tz;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -99,10 +102,34 @@ class MyApp extends StatelessWidget {
               child: child ?? Container(),
             );
           },
-          home: LoginScreen(),
+          home: FutureBuilder(
+            future: _isUserLoggedIn(), // Check if user is logged in
+            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              } else {
+                if (snapshot.data == true) {
+                  return HomePage(); // If user is logged in, show HomePage
+                } else {
+                  return LoginScreen(); // If user is not logged in, show LoginScreen
+                }
+              }
+            },
+          ),
         ),
       ),
     );
+  }
+
+  // Function to check if user is logged in
+  Future<bool> _isUserLoggedIn() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+    return isLoggedIn;
   }
 }
 

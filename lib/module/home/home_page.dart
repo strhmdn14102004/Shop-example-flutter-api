@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shop/helper/dimension.dart';
+import 'package:shop/module/account/account_page.dart';
 import 'package:shop/module/auth/login/login_page.dart';
 import 'package:shop/module/home/home_bloc.dart';
 import 'package:shop/module/home/home_event.dart';
@@ -72,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             child: TextField(
                               decoration: InputDecoration(
-                                hintText: 'Search for products...',
+                                hintText: 'Cari Produk...',
                                 prefixIcon: const Icon(Icons.search),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(20),
@@ -85,11 +86,11 @@ class _HomePageState extends State<HomePage> {
                           const SizedBox(width: 8.0),
                           IconButton(
                             icon: const Icon(
-                              Icons.door_back_door,
+                              Icons.filter_list,
                               size: 30,
                             ),
                             onPressed: () {
-                              _showLogoutConfirmationDialog(context);
+                             
                             },
                           ),
                         ],
@@ -132,6 +133,12 @@ class _HomePageState extends State<HomePage> {
           },
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _showLogoutConfirmationDialog(context);
+        },
+        child: const Icon(Icons.door_back_door_outlined),
+      ),
     );
   }
 }
@@ -171,16 +178,3 @@ void _logout(BuildContext context) {
   );
 }
 
-class AccountPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Account Page'),
-      ),
-      body: const Center(
-        child: Text('Welcome to the Account Page!'),
-      ),
-    );
-  }
-}
