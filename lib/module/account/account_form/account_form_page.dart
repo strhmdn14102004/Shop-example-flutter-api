@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shop/helper/dimension.dart';
 import 'package:shop/overlay/error_overlay.dart';
 import 'package:shop/overlay/success_overlay.dart';
 
@@ -128,37 +129,57 @@ class _AccountFormPageState extends State<AccountFormPage> {
                   _selectImage(context);
                 },
                 child: CircleAvatar(
-                  radius: 50,
+                  radius: 70,
                   backgroundImage:
                       _imageUrl != null ? NetworkImage(_imageUrl!) : null,
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: Dimensions.size40),
               TextFormField(
                 controller: _fullNameController,
                 decoration: const InputDecoration(
-                  labelText: 'Full Name',
+                  labelText: 'Nama Lengkap',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20.0), // Adjust the radius as needed
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
               TextFormField(
-                controller: _nickNameController, // Added nickname field
+                controller: _nickNameController,
                 decoration: const InputDecoration(
-                  labelText: 'Nick Name',
+                  labelText: 'Nama Panggilan',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20.0), // Adjust the radius as needed
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
               TextFormField(
-                controller: _addressController, // Added address field
+                controller: _addressController,
                 decoration: const InputDecoration(
-                  labelText: 'Address',
+                  labelText: 'Alamat Lengkap',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20.0), // Adjust the radius as needed
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
               TextFormField(
-                controller: _phoneNumberController, // Added phone number field
+                controller: _phoneNumberController,
                 decoration: const InputDecoration(
-                  labelText: 'Phone Number',
+                  labelText: 'Nama Panggilan',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20.0), // Adjust the radius as needed
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
@@ -170,7 +191,12 @@ class _AccountFormPageState extends State<AccountFormPage> {
                   child: TextFormField(
                     controller: _birthDateController,
                     decoration: const InputDecoration(
-                      labelText: 'Birth Date',
+                      labelText: 'Nama Panggilan',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20.0), // Adjust the radius as needed
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -191,6 +217,11 @@ class _AccountFormPageState extends State<AccountFormPage> {
                   );
                 }).toList(),
                 decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20.0), // Adjust the radius as needed
+                    ),
+                  ),
                   labelText: 'Gender',
                 ),
               ),
@@ -199,7 +230,16 @@ class _AccountFormPageState extends State<AccountFormPage> {
                 onPressed: () {
                   _uploadDataToFirestore(context);
                 },
-                child: const Text('Save'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 15), // Increase padding
+                  minimumSize:
+                      const Size(double.infinity, 50), // Set button size
+                ),
+                child: const Text(
+                  'Simpan',
+                  style: TextStyle(fontSize: 16),
+                ),
               ),
             ],
           ),

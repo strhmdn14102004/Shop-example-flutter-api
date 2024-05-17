@@ -1,9 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:lottie/lottie.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shop/firebase_options.dart';
 import 'package:shop/helper/app_colors.dart';
@@ -16,11 +18,58 @@ import 'package:timezone/data/latest.dart' as tz;
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Request permissions when the app is initialized
+  await requestPermissions();
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   tz.initializeTimeZones();
+
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('app_icon');
+  const InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+  );
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
   runApp(const MyApp());
+}
+
+// Function to request permissions
+Future<void> requestPermissions() async {
+  // Request multiple permissions at once
+  Map<Permission, PermissionStatus> statuses = await [
+    Permission.camera,
+    Permission.notification, // Adding notification permission
+  ].request();
+
+  // Check if any of the permissions are denied
+  if (statuses.containsValue(PermissionStatus.denied)) {
+    // Show a dialog requesting the user to grant permissions
+    showDialog(
+      context: scaffoldMessengerKey.currentContext!,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Permissions Required'),
+          content: const Text(
+              'Please grant the required permissions to use the app.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {

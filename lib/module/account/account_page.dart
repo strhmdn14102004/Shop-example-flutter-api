@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shop/helper/dimension.dart';
 import 'package:shop/module/account/account_form/account_form_page.dart';
 import 'package:shop/module/auth/forgot_password/forgot_password_page.dart';
 import 'package:shop/module/auth/login/login_page.dart';
@@ -31,8 +32,8 @@ class _AccountPageState extends State<AccountPage> {
 
         if (userDoc.exists) {
           setState(() {
-            _imageUrl =
-                userDoc['profileImageURL']; // Ambil URL gambar profil dari Firestore
+            _imageUrl = userDoc[
+                'profileImageURL']; // Ambil URL gambar profil dari Firestore
           });
         }
       }
@@ -54,10 +55,9 @@ class _AccountPageState extends State<AccountPage> {
             Stack(
               children: [
                 CircleAvatar(
-                  radius: 50,
-                  backgroundImage: _imageUrl != null
-                      ? NetworkImage(_imageUrl!)
-                      : null,
+                  radius: 70,
+                  backgroundImage:
+                      _imageUrl != null ? NetworkImage(_imageUrl!) : null,
                 ),
                 if (_imageUrl == null)
                   Positioned.fill(
@@ -68,28 +68,55 @@ class _AccountPageState extends State<AccountPage> {
             const SizedBox(height: 20),
             Text(
               email,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AccountFormPage()),
-                );
-              },
-              child: const Text('My Profile'),
+            Container(
+              width: 200,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AccountFormPage()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 15), // Increase padding
+                  minimumSize:
+                      const Size(double.infinity, 50), // Set button size
+                ),
+                child: const Text(
+                  'Profilku',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                _resetPassword(context);
-              },
-              child: const Text('Reset Password'),
+            SizedBox(
+              height: Dimensions.size20,
+            ),
+            Container(
+              width: 200,
+              child: ElevatedButton(
+                onPressed: () {
+                  _resetPassword(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 15), // Increase padding
+                  minimumSize:
+                      const Size(double.infinity, 50), // Set button size
+                ),
+                child: const Text(
+                  'Reset Password',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
             ),
           ],
         ),
       ),
-       floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         onPressed: () {
           _showLogoutConfirmationDialog(context);
         },
@@ -100,9 +127,9 @@ class _AccountPageState extends State<AccountPage> {
 
   void _resetPassword(BuildContext context) {
     Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => const ForgotPasswordPage()),
-  );
+      context,
+      MaterialPageRoute(builder: (context) => const ForgotPasswordPage()),
+    );
   }
 }
 
@@ -132,6 +159,7 @@ void _showLogoutConfirmationDialog(BuildContext context) {
     },
   );
 }
+
 void _logout(BuildContext context) {
   FirebaseAuth.instance.signOut();
   Navigator.pushReplacement(
