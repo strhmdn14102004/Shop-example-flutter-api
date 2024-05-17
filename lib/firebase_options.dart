@@ -37,31 +37,31 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDYFss5ZI8bznVj4IR8yhOnKB0PHM27E-I',
-    appId: '1:78585344591:android:c7805dc3861fde9f3d303a',
-    messagingSenderId: '78585344591',
-    projectId: 'shop-5a159',
-    authDomain: 'shop-5a159.firebaseapp.com',
-    storageBucket: 'gs://shop-5a159.appspot.com',
+    apiKey: 'AIzaSyAd422Idu6-5MqIegJZUk7FVc3XVgHGxVI',
+    appId: '1:11847259314:android:fc337c6c25b9ad8573e5ab',
+    messagingSenderId: '11847259314',
+    projectId: 'warungin-f0a5d',
+    authDomain: 'warungin-f0a5d.firebaseapp.com',
+    storageBucket: 'gs://warungin-f0a5d.appspot.com',
     measurementId: 'G-ECMDFE63S7',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDYFss5ZI8bznVj4IR8yhOnKB0PHM27E-I',
-    appId: '1:78585344591:android:c7805dc3861fde9f3d303a',
-    messagingSenderId: '78585344591',
-    projectId: 'shop-5a159',
-    authDomain: 'shop-5a159.firebaseapp.com',
-    storageBucket: 'gs://shop-5a159.appspot.com',
+    apiKey: 'AIzaSyAd422Idu6-5MqIegJZUk7FVc3XVgHGxVI',
+    appId: '1:11847259314:android:fc337c6c25b9ad8573e5ab',
+    messagingSenderId: '11847259314',
+    projectId: 'warungin-f0a5d',
+    authDomain: 'warungin-f0a5d.firebaseapp.com',
+    storageBucket: 'gs://warungin-f0a5d.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDYFss5ZI8bznVj4IR8yhOnKB0PHM27E-I',
-    appId: '1:78585344591:android:c7805dc3861fde9f3d303a',
-    messagingSenderId: '78585344591',
-    projectId: 'shop-5a159',
-    authDomain: 'shop-5a159.firebaseapp.com',
-    storageBucket: 'gs://shop-5a159.appspot.com',
+    apiKey: 'AIzaSyAd422Idu6-5MqIegJZUk7FVc3XVgHGxVI',
+    appId: '1:11847259314:android:fc337c6c25b9ad8573e5ab',
+    messagingSenderId: '11847259314',
+    projectId: 'warungin-f0a5d',
+    authDomain: 'warungin-f0a5d.firebaseapp.com',
+    storageBucket: 'gs://warungin-f0a5d.appspot.com',
     iosClientId: '1045475764615-sh6bdtfvq5gi9hdi9elu247v7usqsvpl.apps.googleusercontent.com',
     iosBundleId: 'com.mrezys',
   );

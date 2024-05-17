@@ -1,26 +1,37 @@
 {
   "project_info": {
-    "project_number": "78585344591",
-    "project_id": "shop-5a159",
-    "storage_bucket": "shop-5a159.appspot.com"
+    "project_number": "11847259314",
+    "firebase_url": "https://warungin-f0a5d-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "warungin-f0a5d",
+    "storage_bucket": "warungin-f0a5d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:78585344591:android:c7805dc3861fde9f3d303a",
+        "mobilesdk_app_id": "1:11847259314:android:fc337c6c25b9ad8573e5ab",
         "android_client_info": {
           "package_name": "com.sasat.shop"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "11847259314-o0dmqpufapatotpjb85s8vltoss6f9gj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyDYFss5ZI8bznVj4IR8yhOnKB0PHM27E-I"
+          "current_key": "AIzaSyAd422Idu6-5MqIegJZUk7FVc3XVgHGxVI"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "11847259314-o0dmqpufapatotpjb85s8vltoss6f9gj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

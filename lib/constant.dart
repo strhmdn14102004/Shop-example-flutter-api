@@ -5,7 +5,13 @@ class Parameter {
 }
 
 class ApiUrl {
-  static String MAIN_BASE = "https://api.myquran.com";
-  static String SECONDARY_BASE = "https://api.myquran.com/v2/";
-  static String JadwalSholat = "sholat/jadwal/:kota/:date";
+  // static String MAIN_BASE = "https://posdemo.sisapp.com:8443/web-order/api/v1/";
+  // static String SECONDARY_BASE = "https://fakestoreapi.com/";
+  static String MAIN_BASE = "https://fakestoreapi.com/";
+  static String SECONDARY_BASE = "https://fakestoreapi.com/";
+  static String merchant = "merchants?code=PHDMJ1";
+  static String produkmerchant = "https://posdemo.sisapp.com:8443/web-order/api/v1/menus";
+  static String produk = "products";
+  static String produksingle = "products/1";
+  static String getallcategories = "products/categories";
 }

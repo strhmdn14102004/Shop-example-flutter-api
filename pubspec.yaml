@@ -72,6 +72,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/shop.png
     - assets/
     - assets/font/
     - assets/images/

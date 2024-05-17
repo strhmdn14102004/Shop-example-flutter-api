@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shop/helper/dimension.dart';
+import 'package:shop/module/auth/login/login_page.dart';
 import 'package:shop/overlay/success_overlay.dart';
 
 class SignUp extends StatefulWidget {
@@ -12,22 +14,12 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  double _elementsOpacity = 1;
-  bool loadingBallAppear = false;
-  double loadingBallSize = 1;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String _errorMessage = '';
-  bool _signupSuccess = false;
 
-  @override
-  void initState() {
-    setState(() {});
-    super.initState();
-  }
-
-  Future<void> _signUpWithEmailAndPassword() async {
+  Future<void> _signUpWithEmailAndPassword(BuildContext context) async {
     try {
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
@@ -38,15 +30,17 @@ class _SignUpState extends State<SignUp> {
       _passwordController.clear();
       setState(() {
         _errorMessage = '';
-        _signupSuccess = true;
       });
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+            builder: (context) => LoginScreen()), // Navigate back to login
+      );
       Navigator.of(context).push(
         SuccessOverlay(
           message:
-              "Regist Akun Dengan Email\n${userCredential.user!.email}\nBerhasil",
+              "Register akun dengan email\n${userCredential.user!.email}\nBerhasil",
         ),
       );
-      setState(() {});
       print('User signed up: ${userCredential.user!.email}');
     } catch (e) {
       setState(() {
@@ -58,6 +52,80 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(resizeToAvoidBottomInset: true, body: Container());
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ClipOval(
+                child: Image.asset(
+                  'assets/shop.png', // Add your Shopee logo image asset
+                  width: 150,
+                  height: 150,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              SizedBox(height: Dimensions.size10),
+              Text(
+                "Register Akun Baru",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+              ),
+              SizedBox(height: 20),
+              TextFormField(
+                controller: _emailController,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20.0), // Adjust the radius as needed
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: Dimensions.size15),
+              TextFormField(
+                controller: _passwordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20.0), // Adjust the radius as needed
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () => _signUpWithEmailAndPassword(context),
+                child: Text('Sign Up'),
+              ),
+              SizedBox(height: 10),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            LoginScreen()), // Navigate back to login
+                  );
+                },
+                child: Text(
+                  'Sudah punya akun? Login',
+                ),
+              ),
+              if (_errorMessage.isNotEmpty)
+                Text(
+                  _errorMessage,
+                  style: TextStyle(color: Colors.red),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

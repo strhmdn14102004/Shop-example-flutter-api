@@ -66,28 +66,17 @@ class ApiManager {
 
   final dio = Dio();
 
-  Future<Map<String, dynamic>> getPrayerTimes() async {
-    final String baseUrl = "https://api.myquran.com";
-    final String version = "v2";
-    final String kota = "1204";
-    final String date = DateTime.now()
-        .toIso8601String()
-        .split('T')
-        .first; 
-    final String url = "$baseUrl/$version/sholat/jadwal/$kota/$date";
 
+
+  Future<Response> getproduck(String endpoint) async {
     try {
       final Dio dio = await getDio();
-      final Response response = await dio.get(url);
+      final Response response = await dio.get(ApiUrl.produk);
 
-      if (response.statusCode == 200) {
-        return response.data;
-      } else {
-        throw Exception('Gagal load data jadwal sholat');
-      }
+      return response;
     } catch (e) {
       print('Error: $e');
-      throw Exception('Failed to load data');
+      throw Exception('Failed to perform GET request');
     }
   }
 }

@@ -1,28 +1,17 @@
-import 'package:equatable/equatable.dart';
+import 'package:shop/api/endpoint/all_product/produk_item.dart';
 
-abstract class HomeState extends Equatable {
-  @override
-  List<Object> get props => [];
-}
+abstract class HomeState {}
 
 class HomeInitial extends HomeState {}
 
 class HomeLoading extends HomeState {}
 
 class HomeLoaded extends HomeState {
-  final Map<String, dynamic> prayerTimes;
+  final List<ProductItem> products;
 
-  HomeLoaded({required this.prayerTimes});
-
-  @override
-  List<Object> get props => [prayerTimes];
+  HomeLoaded(this.products);
 }
 
-class HomeError extends HomeState {
-  final String message;
+class HomeError extends HomeState {}
 
-  HomeError({required this.message});
-
-  @override
-  List<Object> get props => [message];
-}
+class HomeFinished extends HomeState {}

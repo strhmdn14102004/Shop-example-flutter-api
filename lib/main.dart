@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (BuildContext context) => HomeBloc(apiManager: apiManager),
+          create: (BuildContext context) => HomeBloc(),
         ),
       ],
       child: GlobalLoaderOverlay(
