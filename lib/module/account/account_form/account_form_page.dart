@@ -1,10 +1,11 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shop/overlay/error_overlay.dart';
 import 'package:shop/overlay/success_overlay.dart';
@@ -16,6 +17,12 @@ class AccountFormPage extends StatefulWidget {
 
 class _AccountFormPageState extends State<AccountFormPage> {
   final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _nickNameController =
+      TextEditingController(); // Added nickname field
+  final TextEditingController _addressController =
+      TextEditingController(); // Added address field
+  final TextEditingController _phoneNumberController =
+      TextEditingController(); // Added phone number field
   final TextEditingController _birthDateController = TextEditingController();
   File? _image;
   String _gender = '';
@@ -67,6 +74,11 @@ class _AccountFormPageState extends State<AccountFormPage> {
           setState(() {
             // Isi kontrol formulir berdasarkan data yang diambil dari Firestore
             _fullNameController.text = userDoc['fullName'];
+            _nickNameController.text =
+                userDoc['nickName']; // Set nickname field
+            _addressController.text = userDoc['address']; // Set address field
+            _phoneNumberController.text =
+                userDoc['phoneNumber']; // Set phone number field
             _birthDateController.text = userDoc['birthDate'];
             _gender = userDoc['gender'];
           });
@@ -105,75 +117,98 @@ class _AccountFormPageState extends State<AccountFormPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: () {
-                _selectImage(context);
-              },
-              child: CircleAvatar(
-                radius: 50,
-                backgroundImage:
-                    _imageUrl != null ? NetworkImage(_imageUrl!) : null,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  _selectImage(context);
+                },
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundImage:
+                      _imageUrl != null ? NetworkImage(_imageUrl!) : null,
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            TextFormField(
-              controller: _fullNameController,
-              decoration: InputDecoration(
-                labelText: 'Full Name',
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _fullNameController,
+                decoration: const InputDecoration(
+                  labelText: 'Full Name',
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            GestureDetector(
-              onTap: () {
-                _selectDate(context);
-              },
-              child: AbsorbPointer(
-                child: TextFormField(
-                  controller: _birthDateController,
-                  decoration: InputDecoration(
-                    labelText: 'Birth Date',
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _nickNameController, // Added nickname field
+                decoration: const InputDecoration(
+                  labelText: 'Nick Name',
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _addressController, // Added address field
+                decoration: const InputDecoration(
+                  labelText: 'Address',
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _phoneNumberController, // Added phone number field
+                decoration: const InputDecoration(
+                  labelText: 'Phone Number',
+                ),
+              ),
+              const SizedBox(height: 16),
+              GestureDetector(
+                onTap: () {
+                  _selectDate(context);
+                },
+                child: AbsorbPointer(
+                  child: TextFormField(
+                    controller: _birthDateController,
+                    decoration: const InputDecoration(
+                      labelText: 'Birth Date',
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 16),
-            DropdownButtonFormField<String>(
-              value: _gender,
-              onChanged: (value) {
-                setState(() {
-                  _gender = value!;
-                });
-              },
-              items: <String>['', 'Male', 'Female', 'Other']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              decoration: InputDecoration(
-                labelText: 'Gender',
+              const SizedBox(height: 16),
+              DropdownButtonFormField<String>(
+                value: _gender,
+                onChanged: (value) {
+                  setState(() {
+                    _gender = value!;
+                  });
+                },
+                items: <String>['', 'Male', 'Female', 'Other']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                decoration: const InputDecoration(
+                  labelText: 'Gender',
+                ),
               ),
-            ),
-            SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: () {
-                _uploadDataToFirestore(context);
-              },
-              child: Text('Save'),
-            ),
-          ],
+              const SizedBox(height: 32),
+              ElevatedButton(
+                onPressed: () {
+                  _uploadDataToFirestore(context);
+                },
+                child: const Text('Save'),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
- void _selectImage(BuildContext context) async {
+  void _selectImage(BuildContext context) async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
@@ -185,7 +220,6 @@ class _AccountFormPageState extends State<AccountFormPage> {
     });
   }
 
-
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -196,7 +230,8 @@ class _AccountFormPageState extends State<AccountFormPage> {
 
     if (pickedDate != null) {
       setState(() {
-        _birthDateController.text = pickedDate.toString();
+        _birthDateController.text =
+            "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
       });
     }
   }
@@ -212,23 +247,34 @@ class _AccountFormPageState extends State<AccountFormPage> {
       }
 
       String fullName = _fullNameController.text.trim();
+      String nickName =
+          _nickNameController.text.trim(); // Get nickname field value
+      String address =
+          _addressController.text.trim(); // Get address field value
+      String phoneNumber =
+          _phoneNumberController.text.trim(); // Get phone number field value
       String birthDate = _birthDateController.text.trim();
       String gender = _gender;
 
       // Validasi bahwa kedua kolom diisi
-      if (fullName.isEmpty || birthDate.isEmpty || gender.isEmpty) {
+      if (fullName.isEmpty ||
+          nickName.isEmpty || // Validate nickname field
+          address.isEmpty || // Validate address field
+          phoneNumber.isEmpty || // Validate phone number field
+          birthDate.isEmpty ||
+          gender.isEmpty) {
         showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: Text('Error'),
-              content: Text('Please fill in all fields.'),
+              title: const Text('Error'),
+              content: const Text('Please fill in all fields.'),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             );
@@ -240,6 +286,9 @@ class _AccountFormPageState extends State<AccountFormPage> {
       // Menambahkan data ke Firestore berdasarkan email pengguna
       await FirebaseFirestore.instance.collection('users').doc(email).set({
         'fullName': fullName,
+        'nickName': nickName, // Add nickname field
+        'address': address, // Add address field
+        'phoneNumber': phoneNumber, // Add phone number field
         'birthDate': birthDate,
         'gender': gender,
         // tambahkan foto profil jika ada
@@ -248,19 +297,17 @@ class _AccountFormPageState extends State<AccountFormPage> {
       });
 
       // Tampilkan dialog sukses
-       Navigator.of(context).push(
+      Navigator.of(context).push(
         SuccessOverlay(
-          message:
-              "Profile Berhasil diupload",
+          message: "Profile Berhasil diupload",
         ),
       );
     } catch (e) {
       print('Error uploading data to Firestore: $e');
       // Tampilkan pesan error jika terjadi kesalahan
-     Navigator.of(context).push(
+      Navigator.of(context).push(
         ErrorOverlay(
-          message:
-              "Profile Gagal diupload",
+          message: "Profile Gagal diupload",
         ),
       );
     }
