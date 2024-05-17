@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shop/helper/dimension.dart';
-import 'package:shop/helper/navigator.dart';
 import 'package:shop/overlay/error_overlay.dart';
 import 'package:shop/overlay/success_overlay.dart';
 
@@ -117,6 +116,8 @@ class _AccountFormPageState extends State<AccountFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
+    String email = user != null ? user.email ?? "" : "";
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
@@ -125,6 +126,23 @@ class _AccountFormPageState extends State<AccountFormPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const Text(
+                "Hallo",
+                style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic),
+              ),
+              SizedBox(
+                height: Dimensions.size5,
+              ),
+              Text(
+                email,
+                style: const TextStyle(fontSize: 20),
+              ),
+              SizedBox(
+                height: Dimensions.size20,
+              ),
               GestureDetector(
                 onTap: () {
                   _selectImage(context);
@@ -135,7 +153,7 @@ class _AccountFormPageState extends State<AccountFormPage> {
                       _imageUrl != null ? NetworkImage(_imageUrl!) : null,
                 ),
               ),
-              SizedBox(height: Dimensions.size40),
+              SizedBox(height: Dimensions.size30),
               TextFormField(
                 controller: _fullNameController,
                 decoration: const InputDecoration(
@@ -173,6 +191,7 @@ class _AccountFormPageState extends State<AccountFormPage> {
               ),
               const SizedBox(height: 16),
               TextFormField(
+                keyboardType: TextInputType.number,
                 controller: _phoneNumberController,
                 decoration: const InputDecoration(
                   labelText: 'No Handphone',
@@ -343,7 +362,6 @@ class _AccountFormPageState extends State<AccountFormPage> {
           message: "Profile Berhasil diupload",
         ),
       );
-     
     } catch (e) {
       print('Error uploading data to Firestore: $e');
       // Tampilkan pesan error jika terjadi kesalahan
