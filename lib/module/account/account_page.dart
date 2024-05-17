@@ -117,6 +117,7 @@ class _AccountPageState extends State<AccountPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        
         onPressed: () {
           _showLogoutConfirmationDialog(context);
         },

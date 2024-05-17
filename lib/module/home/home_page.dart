@@ -1,10 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shop/helper/dimension.dart';
 import 'package:shop/module/account/account_page.dart';
-import 'package:shop/module/auth/login/login_page.dart';
 import 'package:shop/module/home/home_bloc.dart';
 import 'package:shop/module/home/home_event.dart';
 import 'package:shop/module/home/home_state.dart';
@@ -55,21 +53,6 @@ class _HomePageState extends State<HomePage> {
                           horizontal: 16.0, vertical: 8.0),
                       child: Row(
                         children: [
-                          IconButton(
-                            icon: const Icon(
-                              Icons.person,
-                              size: 30,
-                            ),
-                            onPressed: () {
-                              // Navigate to account page
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AccountPage()),
-                              );
-                            },
-                          ),
-                          const SizedBox(width: 8.0),
                           Expanded(
                             child: TextField(
                               decoration: InputDecoration(
@@ -89,9 +72,7 @@ class _HomePageState extends State<HomePage> {
                               Icons.filter_list,
                               size: 30,
                             ),
-                            onPressed: () {
-                             
-                            },
+                            onPressed: () {},
                           ),
                         ],
                       ),
@@ -135,46 +116,13 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _showLogoutConfirmationDialog(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AccountPage()),
+          );
         },
-        child: const Icon(Icons.door_back_door_outlined),
+        child: const Icon(Icons.person),
       ),
     );
   }
 }
-
-void _showLogoutConfirmationDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text("Konfirmasi Logout"),
-        content: const Text("Apakah Anda yakin ingin logout?"),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: const Text("Batal"),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              _logout(context);
-            },
-            child: const Text("Ya, Logout"),
-          ),
-        ],
-      );
-    },
-  );
-}
-
-void _logout(BuildContext context) {
-  FirebaseAuth.instance.signOut();
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(builder: (context) => const LoginScreen()),
-  );
-}
-
