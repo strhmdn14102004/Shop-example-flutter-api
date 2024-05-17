@@ -6,23 +6,28 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:lottie/lottie.dart';
+import 'package:permission_handler/permission_handler.dart'; // Import package
 import 'package:shop/api/api_manager.dart';
 import 'package:shop/firebase_options.dart';
 import 'package:shop/helper/app_colors.dart';
 import 'package:shop/helper/dimension.dart';
 import 'package:shop/module/auth/login/login_page.dart';
 import 'package:shop/module/home/home_bloc.dart';
-
-import 'package:shared_preferences/shared_preferences.dart'; // Import shared_preferences package
 import 'package:shop/module/home/home_page.dart';
-
+import 'package:shared_preferences/shared_preferences.dart'; // Import shared_preferences package
 import 'package:timezone/data/latest.dart' as tz;
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Request permissions when the app is initialized
+  await requestPermissions();
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   tz.initializeTimeZones();
   const AndroidInitializationSettings initializationSettingsAndroid =
@@ -35,6 +40,37 @@ void main() async {
   );
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   runApp(MyApp());
+}
+
+// Function to request permissions
+Future<void> requestPermissions() async {
+  // Request multiple permissions at once
+  Map<Permission, PermissionStatus> statuses = await [
+    Permission.camera,
+    Permission.notification, // Adding notification permission
+  ].request();
+
+  // Check if any of the permissions are denied
+  if (statuses.containsValue(PermissionStatus.denied)) {
+    // Show a dialog requesting the user to grant permissions
+    showDialog(
+      context: navigatorKey.currentState!.overlay!.context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Permissions Required'),
+          content: Text('Please grant the required permissions to use the app.'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -147,7 +183,8 @@ class DismissKeyboard extends StatelessWidget {
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
         if (!currentFocus.hasPrimaryFocus &&
-            currentFocus.focusedChild != null) {
+            currentFocus.focusedChild != null
+) {
           FocusManager.instance.primaryFocus?.unfocus();
         }
       },
